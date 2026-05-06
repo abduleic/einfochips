@@ -115,7 +115,8 @@ http://<EC2-Instance-Public-IP>:8888/topology
 <img width="1722" height="914" alt="Screenshot 2026-05-05 110155" src="https://github.com/user-attachments/assets/77a72e20-110c-4cad-bbe5-e9df6a8bbd91" />
 
 
-<img width="1722" height="914" alt="Screenshot 2026-05-05 110155" src="https://github.com/user-attachments/assets/a398ad28-0eee-4c38-a75e-3698f6cbe17d" />
+<img width="1919" height="1013" alt="Screenshot 2026-05-04 160117" src="https://github.com/user-attachments/assets/e511f053-f1c9-413b-8800-c1837f407800" />
+
 
 
 ---
