@@ -1,55 +1,178 @@
-**DevOps Bootcamp**
+# Create EC2 Instance and Install Docker 
 
-Launch an Amazon Linux EC2 
+In this demo, we'll launch an AWS EC2 instance using Amazon Linux 2023 and install Docker manually.  
+This cloud-based setup will be used to run all Docker CLI and Compose demos — no Docker Desktop needed!
 
-Install Docker in EC2 Amazon Linux version 
+---
 
+## Step-00: Docker Concepts Covered
+
+![Docker Concepts Covered](../../images/02-00-Docker-Concepts-Covered.png)
+
+---
+
+## Step-01: Docker Installation
+
+- Launch an EC2 instance on AWS
+- Connect via SSH
+- Install Docker on Amazon Linux 2023
+- Run a test container
+![Install Docker on EC2 Instance](../../images/02-01-Docker-install.png)
+
+
+
+---
+
+## Step-02: Prerequisites
+
+- AWS account
+- IAM user with EC2 access
+- SSH key pair
+- Basic terminal knowledge
+
+---
+
+## Step-03: EC2 Instance Configuration
+
+| Setting            | Value                      |
+|--------------------|----------------------------|
+| AMI                | **Amazon Linux 2023**      |
+| Instance Type      | `t3.large`                 |
+| Storage            | 30 GB (default is fine)    |
+| Key Pair           | Select or create one       |
+| Security Group     | Allow **SSH (port 22)**  and ALL TCP or atleast (port 80, 8080, 8080)  |
+| Region             | Any (e.g., `us-east-1`)    |
+
+---
+
+## Step-04: Setup Instructions
+
+### 1. Launch EC2 Instance
+
+Use the AWS Console to launch a new EC2 instance with the above settings.
+
+### 2. Connect via SSH
+```bash
+ssh -i your-key.pem ec2-user@<your-ec2-public-ip>
+````
+
+---
+
+### 3. Install Docker on Amazon Linux 2023
+
+```bash
 sudo dnf update -y
-
-sudo dnf -y install docker -y
-
-sudo systemctl enble docker
-
+sudo dnf install docker -y
+sudo systemctl enable docker
 sudo systemctl start docker
-
 sudo usermod -aG docker ec2-user
+```
 
-exit and relogin to apply the command usermod -aG
+> **Logout and reconnect** to apply the docker group permissions.
 
-Docker version 
+---
 
-Clone the image 
+### 4. Test Docker
 
-docker pull stacksimplfy/retail-store-sample-ui:latest
+* `docker version` should print both client and server details
+* `docker run hello-world` should pull the image and print a welcome message
+* `docker images` shows what’s cached locally
 
-Run Container 
+```bash
+# Check Docker version
+docker version
 
-Docker run --name myapp1 -p 1122:8080 -d stacksimplfy/retail-store-sample-ui:latest
+# List Docker images (should be empty initially)
+docker images
 
-Docker ps -a 
+# Run a test container
+docker run hello-world
 
-Now take the public IP address and port test in browser 
-
-Public-IP:1122 	you should be able to see the page
-
-<img width="1919" height="1005" alt="Screenshot 2026-05-04 154201" src="https://github.com/user-attachments/assets/823c0013-c011-447f-a246-c5ececd33cc2" />
-
-
-Docker commands
-
-Docker ps 					- list containers 
-
-Docker exec -it myapp1 /bin/bash		- connect to container 
-
-Docker stop 					- stop a running container
-
-Docker start 					- start a stopped container
-
-Docker ps -aq					- list all container IDs stopped/running
-
-Docker rmi <image id>			- delete docker image
-
-Docker prune system	- Removes everything unused (containers, images, networks, cache)
+# List images again (should now include hello-world)
+docker images
+```
 
 
+### 5. What Happens in the Background?
+When you run:
 
+![Docker Terminology](../../images/02-01-Docker-Terminology.png)
+
+```bash
+docker run hello-world
+````
+ 
+Docker performs the following steps behind the scenes:
+
+---
+
+#### Step-by-Step:
+
+1. **Checks Local Image Cache**
+
+   * Docker looks for the `hello-world` image on your EC2 instance.
+   * If it's **not found locally**, it automatically pulls it from **Docker Hub**.
+
+2. **Downloads the Image**
+
+   * Docker downloads the image in **layers** (compressed segments).
+   * These layers are stored under `/var/lib/docker/`.
+
+3. **Creates a Container**
+
+   * Docker uses the image to create a **new container**.
+   * Each container is an isolated environment with its own filesystem, network, and process space.
+
+4. **Runs the Container**
+
+   * The container runs a small program that prints:
+
+     > “Hello from Docker! This message shows that your installation appears to be working correctly.”
+
+5. **Container Exits**
+
+   * Since the program completes immediately, the container stops.
+   * You can confirm this with:
+
+```bash
+# docker ps command
+docker ps -a
+```
+
+---
+
+#### Before & After
+
+```bash
+# Before running (empty list)
+docker images
+
+# Run test container
+docker run hello-world
+
+# After running (image now appears)
+docker images
+docker ps -a
+```
+
+---
+
+#### Optional: Clean Up
+
+```bash
+# Remove the stopped container
+docker rm $(docker ps -aq)
+
+# Remove the image
+docker rmi hello-world
+```
+
+--- 
+
+## Step-05: Cleanup
+
+To avoid AWS charges:
+
+* Stop or terminate the EC2 instance when not in use
+
+---
