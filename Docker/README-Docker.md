@@ -30,7 +30,7 @@ Docker ps -a
 
 Now take the public IP address and port test in browser 
 
-<public-IP>:1122 	you should be able to see the page
+Public-IP:1122 	you should be able to see the page
 
 <img width="1919" height="1005" alt="Screenshot 2026-05-04 154201" src="https://github.com/user-attachments/assets/823c0013-c011-447f-a246-c5ececd33cc2" />
 
