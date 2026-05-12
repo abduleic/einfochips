@@ -6,7 +6,7 @@
 
 <img width="1919" height="996" alt="Screenshot 2026-05-11 155718" src="https://github.com/user-attachments/assets/5931f5d8-7a36-45a4-b8f7-d93e87811481" />
 
-# STS, Healess service, Deployment, Cluster IP deployment
+# STS, Headless service, Deployment, Cluster IP deployment
 
 <img width="1919" height="1000" alt="Screenshot 2026-05-11 152919" src="https://github.com/user-attachments/assets/c53f7e3c-1c2f-408c-90a0-c2bc4435ad13" />
 
